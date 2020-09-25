@@ -11,6 +11,9 @@ namespace Lab2WS
 
         static void Main(string[] args)
         {
+            bool success=false;
+            bool success2=false;
+            while(success==false){
             try
             {
                 Console.WriteLine("Enter the scrambled words manually or as a file: f - file, m = manual");
@@ -22,25 +25,49 @@ namespace Lab2WS
                     case "F":
                         Console.WriteLine("Enter the full path and filename >");
                         ExecuteScrambledWordsInFileScenario();
+                        success=true;
                         break;
                     case "M":
                         Console.WriteLine("Enter word(s) separated by a comma");
                         ExecuteScrambledWordsManualEntryScenario();
+                        success=true;
                         break;
                     default:
-                        Console.WriteLine("The entered option was not recognized");
+                        Console.WriteLine("The entered option was not recognized, please input F or M");
                         break;
+                }
+                if (success==true){
+                    Console.WriteLine("Would you like to continue? Y/N");
+
+                    while(success2==false){
+                    string optionAgain = Console.ReadLine() ?? throw new Exception("String is null");
+
+                    switch (optionAgain.ToUpper())
+                    {
+                    case "Y":
+                        success=false;
+                        success2=true;                        
+                        break;
+                    case "N":
+                        success2=true;                        
+                        break;
+                    default:
+                        Console.WriteLine("The entered option was not recognized, please input Y or N");
+                        break;
+                    }    
+                    }
                 }
 
                 // Optional for now (when you have no loop)  (Take out when finished)
-                Console.WriteLine("Sorry");
+                // Console.WriteLine("Sorry");
 
         Console.ReadKey();
-
+            
             }
             catch (Exception e)
             {
                 Console.WriteLine("Sorry an error has occurred.. " + e.Message);
+            }
             }
             
 
@@ -56,6 +83,11 @@ namespace Lab2WS
 
         private static void ExecuteScrambledWordsManualEntryScenario()
         {
+
+            string userInput = Console.ReadLine();
+            string[] scrambledWords = phrase.Split(',');
+            DisplayMatchedScrambledWords(scrambledWords);
+
             // 1 get the user's input - comma separated string containing scrambled words
                 
             // 2 Extract the words into a string (red,blue,green) 
@@ -74,7 +106,7 @@ namespace Lab2WS
             // Rule:  Use a formatter to display ... eg:  {0}{1}
             if (!matchedWords.Any())
             {
-               Console.WriteLine("no words found")
+               Console.WriteLine("no words found");
             }
             else
             {
